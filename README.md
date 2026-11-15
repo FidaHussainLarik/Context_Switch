@@ -18,13 +18,11 @@ turnaround time, and CPU utilization.
 - Configurable Round Robin time quantum
 - Algorithm comparison using the same process set
 - Performance tables and graphs
-- Automated tests for models, metrics, scheduling, and random generation
 
 ## Requirements
 
 - Python 3.10 or newer
 - Tkinter
-- `pytest` for running tests
 - `matplotlib` for performance graphs
 
 On Ubuntu/Debian, install Tkinter with:
@@ -41,7 +39,7 @@ From the project directory, create and activate a virtual environment:
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
-python -m pip install pytest matplotlib
+python -m pip install matplotlib
 ```
 
 On Windows, activate the environment with:
@@ -77,20 +75,13 @@ For manual input, provide a process ID, arrival time, burst time, and priority.
 Lower priority numbers represent higher priority. The quantum is used by
 Round Robin.
 
-## Run the tests
+## Manual testing
 
-Linux/macOS:
-
-```bash
-PYTHONPATH=src python -m pytest
-```
-
-Windows PowerShell:
-
-```powershell
-$env:PYTHONPATH = "src"
-python -m pytest
-```
+Run the application and test each scheduling algorithm from the **Simulation**
+tab. Add processes manually or use random generation, run the selected
+algorithm, and use **View Results** to inspect the timeline and calculated
+metrics. The **Algorithm Comparison** and **Performance Graphs** tabs can be
+used to compare the same process set across all algorithms.
 
 ## Project structure
 
@@ -102,5 +93,4 @@ src/context_switch/
 ├── metrics/      Scheduling metric calculations
 ├── scheduling/   CPU scheduling algorithms
 └── simulation/   Algorithm comparison
-tests/            Automated test suite
 ```
