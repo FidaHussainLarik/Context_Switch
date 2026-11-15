@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Context Switch: CPU Scheduling Simulator and Comparison System</title>
+  <style>
+    @page { size: A4; margin: 22mm 20mm 20mm 20mm; }
+    body { font-family: Arial, sans-serif; color: #202124; line-height: 1.35; }
+    h1 { color: #17365d; font-size: 24pt; }
+    h2 { color: #17365d; border-bottom: 1px solid #9fbad0; padding-bottom: 4px; }
+    h3 { color: #2f5597; }
+    p, li { font-size: 10.5pt; }
+    table { width: 100%; border-collapse: collapse; margin: 8px 0 14px; }
+    th, td { border: 1px solid #9e9e9e; padding: 6px; vertical-align: top; }
+    th { background: #d9eaf7; }
+    .title-page { height: 245mm; text-align: center; page-break-after: always; }
+    .title-page h1 { margin-top: 55mm; font-size: 28pt; }
+    .title-page .subtitle { font-size: 16pt; margin: 18mm 0; }
+    .title-page p { font-size: 13pt; }
+    .page { page-break-before: always; }
+    .toc li { margin: 7px 0; list-style: none; }
+    .toc .dots { float: right; }
+    .small { font-size: 9pt; color: #555; }
+    .formula { background: #f3f6f9; border-left: 4px solid #2f5597; padding: 8px 12px; font-family: monospace; }
+  </style>
+</head>
+<body>
+  <section class="title-page">
+    <h1>Context Switch</h1>
+    <div class="subtitle">CPU Scheduling Simulator and Comparison System</div>
+    <p><strong>Team:</strong> Context Switch Team</p>
+    <p><strong>Team Members:</strong></p>
+    <p>Fida Hussain<br>Jawad Ahmed<br>Uzair Ahemd<br>Arun Lal</p>
+    <p><strong>Institution:</strong><br>Sukkur IBA University</p>
+    <p><strong>Date:</strong><br>15 November 2026</p>
+  </section>
+
+  <section>
+    <h1>Abstract</h1>
+    <p>
+      Context Switch is an educational desktop application that simulates CPU
+      process scheduling and visualizes the behavior of scheduling algorithms.
+      It accepts manually entered or randomly generated process datasets and
+      executes six scheduling policies using a common process model.
+    </p>
+    <p>
+      The project objectives are to demonstrate FCFS, SJF, SRTF/SRTN,
+      non-preemptive Priority, preemptive Priority, and Round Robin scheduling;
+      calculate completion, turnaround, waiting, weighted turnaround, and CPU
+      utilization metrics; display Gantt charts; and compare algorithms using
+      the same workload.
+    </p>
+    <p>
+      The completed system provides independent scheduler implementations,
+      centralized metric calculation, random-data preview and validation,
+      algorithm ranking, winner detection, comparison tables, and dedicated
+      performance graphs. The implementation is validated by an automated test
+      suite with 33 passing tests and assignment-style scheduling examples.
+    </p>
+  </section>
+
+  <section class="page">
+    <h1>Table of Contents</h1>
+    <ul class="toc">
+      <li>Title Page <span class="dots">1</span></li>
+      <li>Abstract <span class="dots">2</span></li>
+      <li>Table of Contents <span class="dots">3</span></li>
+      <li>1. Introduction <span class="dots">4</span></li>
+      <li>2. System Requirements <span class="dots">5</span></li>
+      <li>3. Implementation <span class="dots">6</span></li>
+      <li>4. Results and Discussion <span class="dots">7</span></li>
+      <li>5. References <span class="dots">8</span></li>
+    </ul>
+  </section>
+
+  <section class="page">
+    <h1>1. Introduction</h1>
+    <h2>Background and Context</h2>
+    <p>
+      CPU scheduling is the operating-system activity of selecting a ready
+      process for execution. Different policies produce different waiting and
+      turnaround behavior even when the process workload is identical.
+      Visualization makes these differences easier to understand than formulas
+      alone.
+    </p>
+    <h2>Problem Statement</h2>
+    <p>
+      Students often calculate scheduling timelines manually but do not have a
+      single tool that clearly connects ready-queue decisions, preemption,
+      idle periods, Gantt charts, and performance metrics. The project solves
+      this problem with a reusable simulation and visualization application.
+    </p>
+    <h2>Objectives and Scope</h2>
+    <ul>
+      <li>Support six standard scheduling cases independently.</li>
+      <li>Preserve the same input dataset across algorithm comparisons.</li>
+      <li>Show process-level and average scheduling metrics.</li>
+      <li>Visualize execution intervals, preemption, switching, and idle time.</li>
+      <li>Provide manual entry and controlled random process generation.</li>
+      <li>Keep scheduling logic independent from the Tkinter interface.</li>
+    </ul>
+    <h2>Importance of the Project</h2>
+    <p>
+      The system connects operating-systems theory with observable execution.
+      It also demonstrates software engineering practices including modular
+      design, input validation, independent testability, and separation of
+      concerns.
+    </p>
+  </section>
+
+  <section class="page">
+    <h1>2. System Requirements</h1>
+    <h2>Functional Requirements</h2>
+    <ul>
+      <li>Create, validate, remove, and clear process records.</li>
+      <li>Generate random processes within user-defined ranges, with optional seed.</li>
+      <li>Run FCFS, SJF, SRTF/SRTN, Priority NP, Priority P, and Round Robin.</li>
+      <li>Configure the Round Robin quantum.</li>
+      <li>Calculate CT, TAT, WT, WTT, averages, and CPU utilization.</li>
+      <li>Display an eight-column process results table and Gantt chart.</li>
+      <li>Compare all six algorithms using independent copies of one dataset.</li>
+      <li>Rank algorithms and identify overall and individual metric winners.</li>
+      <li>Display batch comparison charts in a dedicated Performance Graphs tab.</li>
+    </ul>
+    <h2>Non-Functional Requirements</h2>
+    <ul>
+      <li>Correctness according to the assignment tie-breaking conventions.</li>
+      <li>Maintainability through modular Python components.</li>
+      <li>Usability through validation messages and readable tables.</li>
+      <li>Reliability through automated unit tests and immutable source inputs.</li>
+      <li>Portability across systems supporting Python, Tkinter, and Matplotlib.</li>
+    </ul>
+    <h2>Hardware and Software Requirements</h2>
+    <table>
+      <tr><th>Category</th><th>Requirement</th></tr>
+      <tr><td>Hardware</td><td>Dual-core processor or better, 4 GB RAM recommended, display capable of running a Tkinter desktop application.</td></tr>
+      <tr><td>Operating system</td><td>Linux, Windows, or macOS with Tkinter support.</td></tr>
+      <tr><td>Runtime</td><td>Python 3.10 or newer.</td></tr>
+      <tr><td>Libraries</td><td>Matplotlib for charts, Pillow as listed by the project dependencies, and pytest for testing.</td></tr>
+    </table>
+  </section>
+
+  <section class="page">
+    <h1>3. Implementation</h1>
+    <h2>Architecture and Modules</h2>
+    <table>
+      <tr><th>Module</th><th>Responsibility</th></tr>
+      <tr><td>domain/models.py</td><td>Defines Process, TimelineSegment, SimulationResult, and validation rules.</td></tr>
+      <tr><td>scheduling/</td><td>Contains the shared Scheduler interface and six independent scheduling implementations.</td></tr>
+      <tr><td>metrics/calculator.py</td><td>Calculates process metrics, averages, and CPU utilization from simulation results.</td></tr>
+      <tr><td>simulation/comparison.py</td><td>Runs all algorithms on cloned inputs and computes rankings, winners, and scores.</td></tr>
+      <tr><td>generation/random_process_generator.py</td><td>Validates random-generation settings, creates Process objects, avoids duplicate IDs, and supports seeds.</td></tr>
+      <tr><td>gui/app.py</td><td>Provides process entry, random preview, simulation controls, result table, popup averages, and Gantt chart.</td></tr>
+      <tr><td>gui/performance.py</td><td>Provides the Algorithm Comparison and Performance Graphs views.</td></tr>
+    </table>
+    <h2>Scheduling and Metric Integration</h2>
+    <p>
+      Each scheduler receives a list of Process objects through the common
+      Scheduler interface. The interface validates the input and creates
+      independent process copies before execution. Schedulers return a
+      SimulationResult containing completed process records and timeline
+      segments. The metrics engine then calculates:
+    </p>
+    <div class="formula">
+      TAT = CT - AT<br>
+      WT = TAT - BT<br>
+      WTT = TAT / BT<br>
+      CPU Utilization = Busy Time / Total Elapsed Time × 100
+    </div>
+    <p>
+      The comparison service invokes every scheduler with the same original
+      dataset and the same Round Robin quantum. It ranks average WT, TAT, and
+      WTT equally; CPU utilization is reported separately and is not included
+      in the overall ranking score.
+    </p>
+    <h2>Graphical Integration</h2>
+    <p>
+      The Simulation tab presents one selected algorithm. The Algorithm
+      Comparison tab presents the batch summary and winner analysis. The
+      Performance Graphs tab separately presents average WT, average TAT,
+      average WTT, and CPU utilization charts for all six algorithms.
+    </p>
+  </section>
+
+  <section class="page">
+    <h1>4. Results and Discussion</h1>
+    <h2>Key Outcomes</h2>
+    <ul>
+      <li>All six scheduling algorithms are available independently.</li>
+      <li>Preemptive schedulers preserve remaining burst time correctly.</li>
+      <li>Idle intervals are represented in timelines and Gantt charts.</li>
+      <li>Process-level CT, TAT, WT, and WTT values are displayed after simulation.</li>
+      <li>Random datasets can be previewed, edited, regenerated, and confirmed before insertion.</li>
+      <li>Comparison results identify workload-specific winners rather than claiming a universal best algorithm.</li>
+    </ul>
+    <h2>Comparison with Objectives</h2>
+    <p>
+      The implementation meets the primary objectives. Assignment-style
+      validation produced the expected average waiting and turnaround values:
+      FCFS 15.50/20.50, SJF 10.63/15.63, SRTF 9.75/14.75, Priority NP
+      11.75/16.75, Priority P 10.50/15.50, and Round Robin 20.88/25.88 for
+      the tested workload.
+    </p>
+    <h2>Challenges and Solutions</h2>
+    <table>
+      <tr><th>Challenge</th><th>Solution</th></tr>
+      <tr><td>Preemption and remaining time</td><td>Schedulers split timelines at relevant arrival or quantum events and preserve remaining_time.</td></tr>
+      <tr><td>Consistent comparisons</td><td>The common Scheduler interface clones every input process for each algorithm.</td></tr>
+      <tr><td>Duplicate random IDs</td><td>The dedicated generator reserves existing and newly generated IDs.</td></tr>
+      <tr><td>Readable interface</td><td>Simulation, comparison summary, and performance graphs are separated into tabs.</td></tr>
+      <tr><td>CPU utilization interpretation</td><td>Utilization is calculated from busy time and elapsed time; it is normally equal across work-conserving algorithms when no context-switch cost is modeled.</td></tr>
+    </table>
+    <h2>Testing Outcome</h2>
+    <p>
+      The project test suite contains 33 passing tests covering models, metrics,
+      all six scheduling implementations, comparison independence and ranking,
+      random generation, invalid inputs, ties, preemption, Round Robin queue
+      behavior, and idle periods. Source and test modules also compile
+      successfully.
+    </p>
+  </section>
+
+  <section class="page">
+    <h1>5. References</h1>
+    <ol>
+      <li>
+        Silberschatz, A., Galvin, P. B., and Gagne, G.
+        <em>Operating System Concepts</em>. Wiley.
+      </li>
+      <li>
+        Sukkur IBA University, <em>OS Assignment 1: CPU Process Scheduling</em>,
+        supplied solved assignment, 2026.
+      </li>
+      <li>
+        Python Software Foundation, <em>Python Documentation</em>.
+        https://docs.python.org/3/
+      </li>
+      <li>
+        Python Software Foundation, <em>Tkinter — Python interface to Tcl/Tk</em>.
+        https://docs.python.org/3/library/tkinter.html
+      </li>
+      <li>
+        Matplotlib Development Team, <em>Matplotlib Documentation</em>.
+        https://matplotlib.org/stable/
+      </li>
+      <li>
+        Project source code: <em>Context Switch CPU Scheduling Simulator</em>,
+        Sukkur IBA University project workspace, 2026.
+      </li>
+    </ol>
+    <p class="small">
+      Report prepared from the implemented project architecture and the supplied
+      solved CPU scheduling assignment.
+    </p>
+  </section>
+</body>
+</html>

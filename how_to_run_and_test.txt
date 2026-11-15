@@ -1,0 +1,14 @@
+Context-Switch/
+├── docs/
+├── src/
+├── tests/
+├── README.md
+└── requirements.txt
+
+
+
+How to run:
+
+cd /home/fida-hussain/0_Semester_05/3_Operating_System/Lab_Manuals/Project/Context_Switch
+source .venv/bin/activate
+PYTHONPATH=src python -m context_switch.main
